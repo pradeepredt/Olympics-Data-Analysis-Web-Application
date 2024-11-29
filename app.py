@@ -5,18 +5,29 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.figure_factory as ff
+import streamlit.components.v1 as components
 
-df = pd.read_csv('athlete data.csv.gz')
-region_df = pd.read_csv('noc regions data.csv')
-
-df = preprocessor.preprocess(df,region_df)
+js_code = """
+<script>
+    alert("Welcome to the Olympics Data Analysis Application!");
+    var userName = prompt("Please enter your name:");
+    if (userName) {
+        alert("Hi, "+userName);
+    }
+</script>
+"""
+components.html(js_code)
 
 st.sidebar.title("Olympics Analysis")
 st.sidebar.image('https://miro.medium.com/v2/resize:fit:928/1*VMlX9-xnnS9Gc-vFgLwf0Q.png')
 user_menu = st.sidebar.radio(
     'Select an Option',
-    ('Medal Tally','Overall Analysis','Country-wise Analysis','Athlete wise Analysis')
+    ('Medal Tally', 'Overall Analysis', 'Country-wise Analysis', 'Athlete wise Analysis')
 )
+
+df = pd.read_csv('athlete data.csv.gz')
+region_df = pd.read_csv('noc regions data.csv')
+df = preprocessor.preprocess(df,region_df)
 
 if user_menu == 'Medal Tally':
     st.sidebar.header("Medal Tally")
